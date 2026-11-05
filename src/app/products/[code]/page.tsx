@@ -1,22 +1,76 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import { products } from "@/mocks/pim/products";
-import { getProductValue, getProductPrice } from "@/lib/pim";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { getProductValue, getProductPrice, type PimProduct } from "@/lib/pim";
 
-export function generateStaticParams() {
-  return products.map((p) => ({ code: p.identifier }));
-}
+export default function ProductPage() {
+  const params = useParams<{ code: string }>();
+  const code = params.code;
 
-export default async function ProductPage({
-  params,
-}: {
-  params: Promise<{ code: string }>;
-}) {
-  const { code } = await params;
-  const product = products.find((p) => p.identifier === code);
+  const [product, setProduct] = useState<PimProduct | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [missing, setMissing] = useState(false);
 
-  if (!product) notFound();
+  useEffect(() => {
+    fetch(`/api/products/${code}`)
+      .then((res) => {
+        if (res.status === 404) {
+          setMissing(true);
+          return null;
+        }
+        if (!res.ok) throw new Error("Request failed");
+        return res.json();
+      })
+      .then((data) => {
+        if (data) setProduct(data.productData);
+      })
+      .catch(() => setError(true))
+      .finally(() => setLoading(false));
+  }, [code]);
+
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-gray-100 py-12 px-4">
+        <div className="max-w-4xl mx-auto text-gray-500">Loading…</div>
+      </main>
+    );
+  }
+
+  if (missing) {
+    return (
+      <main className="min-h-screen bg-gray-100 py-12 px-4">
+        <div className="max-w-4xl mx-auto">
+          <Link
+            href="/"
+            className="inline-flex items-center text-sm text-gray-500 hover:text-gray-900 mb-6"
+          >
+            &larr; Back to catalog
+          </Link>
+          <p className="text-gray-900">Product not found.</p>
+        </div>
+      </main>
+    );
+  }
+
+  if (error || !product) {
+    return (
+      <main className="min-h-screen bg-gray-100 py-12 px-4">
+        <div className="max-w-4xl mx-auto">
+          <Link
+            href="/"
+            className="inline-flex items-center text-sm text-gray-500 hover:text-gray-900 mb-6"
+          >
+            &larr; Back to catalog
+          </Link>
+          <p className="text-red-500">Something went wrong.</p>
+        </div>
+      </main>
+    );
+  }
 
   const name = getProductValue(product, "name") ?? product.identifier;
   const description = getProductValue(product, "description");
