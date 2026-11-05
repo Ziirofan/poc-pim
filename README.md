@@ -37,8 +37,9 @@ Open [http://localhost:3000](http://localhost:3000) to see the product catalog.
 
 ## Tech Interview — Feature Exercises
 
-Pick one or more features below and implement them. They focus on three areas:
-**data fetching & state**, **client-side routing**, and **code quality**.
+Pick one or more features below and implement them. They focus on four areas:
+**data fetching & state**, **client-side routing**, **code quality**, and
+**accessibility**.
 
 ---
 
@@ -146,6 +147,31 @@ correct, **so that** the code is maintainable and products are ordered properly.
   end
 - Given the refactor, when I run the app, then catalog and detail still render
   correctly
+
+**Technical notes:**
+>
+> _To be completed by the candidate_
+>
+
+---
+
+### Feat 6 — Accessibility
+
+**As a** user with a disability, **I want** the catalog fully navigable with a
+keyboard and a screen reader, **so that** I can browse and read product
+information without barriers.
+
+**Acceptance criteria:**
+- Given any page, when I navigate with the keyboard only, then I can reach every
+  interactive element in a logical order with a visible focus indicator
+- Given a product card, when a screen reader reads it, then the product name,
+  price, and image alt text are announced clearly (status is not conveyed by
+  color alone)
+- Given client-side navigation to a product (or to the not-found state), when the
+  view changes, then focus is managed and the change is announced — not a silent
+  route swap
+- Given the whole app, when I run a Lighthouse accessibility audit, then the
+  score is above 90
 
 **Technical notes:**
 >

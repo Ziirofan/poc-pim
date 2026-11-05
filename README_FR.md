@@ -39,8 +39,8 @@ Ouvrez [http://localhost:3000](http://localhost:3000) pour voir le catalogue de 
 ## Entretien technique — Exercices de fonctionnalités
 
 Choisissez une ou plusieurs fonctionnalités ci-dessous et implémentez-les. Elles
-portent sur trois domaines : **récupération de données & état**, **routage côté
-client** et **qualité du code**.
+portent sur quatre domaines : **récupération de données & état**, **routage côté
+client**, **qualité du code** et **accessibilité**.
 
 ---
 
@@ -153,6 +153,32 @@ les produits correctement ordonnés.
   en fin de liste
 - Étant donné le refactoring, lorsque je lance l'application, alors le catalogue
   et le détail s'affichent toujours correctement
+
+**Notes techniques :**
+>
+> _À compléter par le candidat_
+>
+
+---
+
+### Feat 6 — Accessibilité
+
+**En tant qu'** utilisateur en situation de handicap, **je souhaite** que le
+catalogue soit entièrement navigable au clavier et avec un lecteur d'écran,
+**afin de** parcourir et lire les informations produit sans obstacles.
+
+**Critères d'acceptation :**
+- Étant donné n'importe quelle page, lorsque je navigue uniquement au clavier,
+  alors je peux atteindre chaque élément interactif dans un ordre logique avec un
+  indicateur de focus visible
+- Étant donné une carte produit, lorsqu'un lecteur d'écran la lit, alors le nom
+  du produit, le prix et le texte alternatif de l'image sont annoncés clairement
+  (le statut n'est pas transmis uniquement par la couleur)
+- Étant donné une navigation côté client vers un produit (ou vers l'état
+  « introuvable »), lorsque la vue change, alors le focus est géré et le
+  changement est annoncé — pas un changement de route silencieux
+- Étant donné l'ensemble de l'application, lorsque je lance un audit
+  d'accessibilité Lighthouse, alors le score est supérieur à 90
 
 **Notes techniques :**
 >
