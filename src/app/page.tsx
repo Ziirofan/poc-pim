@@ -1,10 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import {
-  products,
-  getProductValue,
-  getProductPrice,
-} from "@/mocks/pim/products";
+import { products } from "@/mocks/pim/products";
+import { getProductValue, getProductPrice } from "@/lib/pim";
 
 export default function Home() {
   // Sort products by price (ascending)

@@ -1,11 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import {
-  products,
-  getProductValue,
-  getProductPrice,
-} from "@/mocks/pim/products";
+import { products } from "@/mocks/pim/products";
+import { getProductValue, getProductPrice } from "@/lib/pim";
 
 export function generateStaticParams() {
   return products.map((p) => ({ code: p.identifier }));
