@@ -1,9 +1,44 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { products } from "@/mocks/pim/products";
-import { getProductValue, getProductPrice } from "@/lib/pim";
+import { useEffect, useState } from "react";
+import { getProductValue, getProductPrice, type PimProduct } from "@/lib/pim";
 
 export default function Home() {
+  const [products, setProducts] = useState<PimProduct[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/products")
+      .then((res) => {
+        if (!res.ok) throw new Error("Request failed");
+        return res.json();
+      })
+      .then((data) => setProducts(data.products))
+      .catch(() => setError(true))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-gray-100 py-12 px-4">
+        <div className="max-w-6xl mx-auto text-gray-500">Loading…</div>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className="min-h-screen bg-gray-100 py-12 px-4">
+        <div className="max-w-6xl mx-auto text-red-500">
+          Something went wrong.
+        </div>
+      </main>
+    );
+  }
+
   // Sort products by price (ascending)
   const sortedProducts = [...products].sort((a, b) => {
     const priceA = getProductPrice(a) ?? "";
